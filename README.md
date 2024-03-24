@@ -19,24 +19,28 @@ This application provides a command-line interface (CLI) for analyzing e-commerc
 
 1. Clone the repository:
 
-    ```bash
+    ```command prompt
     git clone https://github.com/your-username/ecommerce-data-analysis.git
     ```
+2. Create Directory
+   
+    "ecommerce_analyzer" 
+        --- move all files in this directory but except "setup.py" file
 
-2. Install dependencies:
+4. Install dependencies:
 
-    ```bash
+    ```command prompt
     py setup.py install
     ```
 
-3. Setup MySQL instance and populate it with e-commerce data.
+5. Setup MySQL instance and populate it with e-commerce data.
 
 ## Usage
 
 1. Run the CLI script to execute SQL queries:
 
-    ```bash
-    ecommerce_analyzer demand daily 2020-08-01 2020-08-05 T-Shirts
+    ```command prompt
+    ecommerce_analyzer demand daily 2020-08-01 2020-08-05 "T-Shirts"
     ```
 
     Replace `demand` with the desired query name, `daily` with the window type, and provide start and end dates and category accordingly.
