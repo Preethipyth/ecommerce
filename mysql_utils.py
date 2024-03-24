@@ -1,9 +1,16 @@
+import logging
 from mysql.connector import *
 import datetime
 
+# Set up logging
+logging.basicConfig(filename='example.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 def connect_to_mysql():
-    db = connect(host='localhost',user = 'root',password='root',db='ecommerce_analyzer',port ='3306')
-    return db
+    try:
+        db = connect(host='localhost', user='root', password='root', db='ecommerce', port='3306')
+        return db
+    except Error as e:
+        logging.error(f"Error connecting to MySQL: {e}")
 
 def run_sql_query(query_name, window_type, start_date, end_date, category):
     try:
@@ -17,7 +24,7 @@ def run_sql_query(query_name, window_type, start_date, end_date, category):
         conn = connect_to_mysql()
         cursor = conn.cursor()
 
-        sql_query = {"demand" : """
+        sql_query = {"demand": """
             SELECT *
             FROM orders
             WHERE InvoiceDate >= %s AND InvoiceDate < %s
@@ -27,11 +34,10 @@ def run_sql_query(query_name, window_type, start_date, end_date, category):
         if query_name in sql_query:
             cursor.execute(sql_query[query_name], (start_date, end_date, f'%{category}%'))
             rows = cursor.fetchall()
-            # print(rows)
+            logging.info(f"Query executed: {query_name}")
         return rows
 
-    except:
-        print("Error:")
-
+    except Error as e:
+        logging.error(f"Error running SQL query: {e}")
     finally:
-       cursor.close()
+        cursor.close()
